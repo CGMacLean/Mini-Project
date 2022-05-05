@@ -83,6 +83,7 @@ def screen_refresh():
 print_logo()
 product_list = get_item_list(PRODUCTS)
 courier_list = get_item_list(COURIERS)
+# boot while loop
 while True:
     user_input = input(
         "press 0 to save and exit \npress 1 to view products \npress 2 to view couriers:")
