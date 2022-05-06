@@ -36,12 +36,12 @@ def print_list(item_list):
         print(i, words)
 
 
-def add_product(file_location, item_name):
-    file = open(file_location, 'a+')
-    new_item = input(f'What {item_name} do you want to add?:').title()
-    file.write(f'{new_item}\n')
-    file.close()
-    return new_item
+def add_item(file_location, item_name):
+    with open(file_location, 'a+') as file:
+        new_item = input(f'What {item_name} do you want to add?:').title()
+        file.write(f'{new_item}\n')
+        file.close()
+        return new_item
 
 
 def update_item(file_location, item_list, item_name):
@@ -105,7 +105,7 @@ while True:
                 time.sleep(3)
                 screen_refresh()
             elif user_menu_input == '2':
-                new_item = add_product(PRODUCTS, 'products')
+                new_item = add_item(PRODUCTS, 'products')
                 product_list.append(new_item)
                 print_list(product_list)
                 time.sleep(3)
@@ -129,7 +129,7 @@ while True:
                 time.sleep(3)
                 screen_refresh()
             elif user_menu_input == '2':
-                new_item = add_product(COURIERS, 'courier')
+                new_item = add_item(COURIERS, 'courier')
                 courier_list.append(new_item)
                 print_list(courier_list)
                 time.sleep(3)
