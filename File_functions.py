@@ -16,7 +16,6 @@ def print_logo():
 
 def exit_to_menu():
     print('return to main menu')
-    screen_refresh()
 
 
 def get_item_list(file_location):
@@ -48,7 +47,6 @@ def update_item(file_location, item_list, item_name):
         user_replace_input = input(
             'what do you want to replace with?:').title()
         item_list[user_edit_input] = user_replace_input
-        screen_refresh()
         return item_list
 
 
@@ -66,9 +64,3 @@ def delete_item(file_location, item_list, item_name):
         user_delete_input = (
             int(input(f"press the number of the {item_name} you want to delete?")))
         del item_list[user_delete_input]
-
-    screen_refresh()
-
-
-def screen_refresh():
-    os.system('cls')
