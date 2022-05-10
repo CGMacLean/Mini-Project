@@ -1,9 +1,11 @@
 import os
 import time
+
 from File_functions import *
 
 PRODUCTS = 'product_list.txt'
 COURIERS = 'courier_list.txt'
+ORDERS = 'order_list.json'
 
 
 def refresh_screen():
@@ -17,7 +19,7 @@ courier_list = get_item_list(COURIERS)
 while True:
     refresh_screen()
     user_input = input(
-        "press 0 to save and exit \npress 1 to view products \npress 2 to view couriers:")
+        "press 0 to save and exit: \npress 1 to view products: \npress 2 to view couriers: \npress 3 to view orders:")
     if user_input == '0':
         save(PRODUCTS, product_list)
         save(COURIERS, courier_list)
@@ -78,3 +80,14 @@ while True:
                 delete_item(COURIERS, courier_list, 'courier')
                 save(COURIERS, courier_list)
                 refresh_screen()
+    elif user_input == '3':
+        refresh_screen
+        while True:
+            user_menu_input = input(
+                'press 0 to go to main menu \npress 1 to view orders \npress 2 add a order \npress 3 to edit order status \npress 4 to update order: \npress 5 to delete order:')
+            if user_menu_input == '0':
+                exit_to_menu()
+                refresh_screen()
+                break
+            if user_menu_input == '1':
+                print_order_list(ORDERS)

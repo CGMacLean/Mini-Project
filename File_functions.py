@@ -1,3 +1,5 @@
+import json
+# import yaml
 
 
 def print_logo():
@@ -64,3 +66,20 @@ def delete_item(file_location, item_list, item_name):
         user_delete_input = (
             int(input(f"press the number of the {item_name} you want to delete?")))
         del item_list[user_delete_input]
+
+
+def load_order_list(item_list):
+    with open(item_list, 'r') as file:
+        contents = json.loads(file.read())
+
+        return contents
+
+
+contents = load_order_list('order_list.json')
+
+
+def print_order_list(contents):
+    print(contents)
+
+
+print_order_list(contents)
