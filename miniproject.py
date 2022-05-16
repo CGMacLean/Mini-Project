@@ -1,3 +1,4 @@
+from cgi import test
 import os
 import time
 from File_functions import *
@@ -133,7 +134,10 @@ while True:
                 # new_edit = edit_dict(picked_order)
                 save_orders(order_list, ORDERS)
                 refresh_screen()
-            # elif user_menu_input == '5':
-            #     delete_order(order_list)
-            #     save_orders(order_list, ORDERS)
-            #     refresh_screen()
+            elif user_menu_input == '5':
+                delete_order(order_list)
+                save_orders(order_list, ORDERS)
+                refresh_screen()
+
+
+this is a test
