@@ -1,3 +1,4 @@
+from cgi import test
 import os
 import time
 from File_functions import *
@@ -11,7 +12,7 @@ ORDER_STATUS = 'order_status.json'
 product_list = get_item_list(PRODUCTS)
 courier_list = get_item_list(COURIERS)
 order_list = load_json(ORDERS)
-order_status = load_json(ORDER_STATUS)
+# order_status = load_json(ORDER_STATUS)
 
 # courier_by_index = {print_list(courier_list)}
 
@@ -92,6 +93,7 @@ while True:
                 save(COURIERS, courier_list)
                 refresh_screen()
             elif user_menu_input == '4':
+                # delete courier
                 delete_item(COURIERS, courier_list, 'courier')
                 save(COURIERS, courier_list)
                 refresh_screen()
@@ -103,14 +105,17 @@ while True:
             user_menu_input = input(
                 'press 0 to go to main menu \npress 1 to view orders \npress 2 add a order \npress 3 to edit order status \npress 4 to update order: \npress 5 to delete order:')
             if user_menu_input == '0':
+                # exit to menu
                 exit_to_menu()
                 refresh_screen()
                 break
             elif user_menu_input == '1':
+                # print orders
                 print_order_list(order_list)
                 time.sleep(3)
                 refresh_screen()
             elif user_menu_input == '2':
+                # add new order
                 input_new_order(order_list, courier_list)
                 save_orders(order_list, ORDERS)
                 print_order_list(order_list)
@@ -133,3 +138,6 @@ while True:
                 delete_order(order_list)
                 save_orders(order_list, ORDERS)
                 refresh_screen()
+
+
+this is a test

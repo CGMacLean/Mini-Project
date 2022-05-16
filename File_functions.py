@@ -35,7 +35,7 @@ def get_item_list(file_location):
 
 def print_list(item_list):
     for i, words in enumerate(item_list):
-        print(i, words)
+        return i, words
 
 
 def add_item(file_location, item_name):
@@ -197,3 +197,13 @@ def delete_order(order_list):
 
 # courier_index = int(input('pick the number of the courier:'))
 # new_orders['courier'] = courier_list[courier_index]
+
+
+# open csv
+# def open_csv(filename):
+#     lists = []
+#     with open(filename, 'r+') as file:
+#         csv_file = csv.DictReader(file)
+#         for row in csv_file:
+#             lists.append(row)
+#         return lists
