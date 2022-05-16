@@ -138,6 +138,3 @@ while True:
                 delete_order(order_list)
                 save_orders(order_list, ORDERS)
                 refresh_screen()
-
-
-this is a test
