@@ -1,16 +1,17 @@
-from cgi import test
 import os
 import time
-from File_functions import *
+from Main_function import *
 
-PRODUCTS = 'product_list.txt'
-COURIERS = 'courier_list.txt'
+PRODUCTS = 'product_list.csv'
+COURIERS = 'courier_list.csv'
 ORDERS = 'order_list.json'
 ORDER_STATUS = 'order_status.json'
 
 
-product_list = get_item_list(PRODUCTS)
-courier_list = get_item_list(COURIERS)
+product_list = open_csv(PRODUCTS)
+print(product_list)
+# print(print_list(product_list))
+courier_list = open_csv(COURIERS)
 order_list = load_json(ORDERS)
 # order_status = load_json(ORDER_STATUS)
 
@@ -21,7 +22,7 @@ print_logo()
 
 # boot while loop
 while True:
-    refresh_screen()
+    # refresh_screen()
     user_input = input(
         "press 0 to save and exit: \npress 1 to view products: \npress 2 to view couriers: \npress 3 to view orders:")
     if user_input == '0':
@@ -42,7 +43,7 @@ while True:
                 break
             elif user_menu_input == '1':
                 # PRINT products list
-                print_list(product_list)
+                print(print_list(product_list))
                 time.sleep(3)
                 refresh_screen()
             elif user_menu_input == '2':

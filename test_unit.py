@@ -1,17 +1,26 @@
-from File_functions import *
+from source.File_functions import *
 from unittest.mock import Mock
 
 
 # didn't work must return different to visual display
 
-
 def test_print_list():
-    item_list_1 = ['customer_name']
-    expected = (0, 'customer_name')
-    print(expected)
+    item_list_1 = ['customer_name', 'product_name']
+    expected = (0, 'customer_name')(1, 'product_name')
+    # print(expected)
     actual = print_list(item_list_1)
-    print(actual)
+    # print(actual)
     assert expected == actual
+
+
+test_print_list()
+
+#     picked oder = [a,b,c]
+
+#     a= 1
+#     exected = [1,a]
+#    actual = uppdate_function()
+#    assert expected == actual
 
 
 test_print_list()

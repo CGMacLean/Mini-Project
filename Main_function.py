@@ -1,6 +1,7 @@
 import json
 import os
 import time
+import csv
 # import yaml
 
 
@@ -33,6 +34,22 @@ def get_item_list(file_location):
         return lines
 
 
+def open_csv(file_name):
+    lists = []
+    with open(file_name, 'r+') as file:
+        csv_file = csv.DictReader(file_name)
+        for row in csv_file:
+            lists.append(row)
+        return lists
+
+    # lists = []
+    # with open(filename, 'r+') as file:
+    #     csv_file = csv.DictReader(file)
+    #     for row in csv_file:
+    #         lists.append(row)
+    #     return lists
+
+
 def print_list(item_list):
     for i, words in enumerate(item_list):
         return i, words
@@ -41,7 +58,8 @@ def print_list(item_list):
 def add_item(file_location, item_name):
     with open(file_location, 'a+') as file:
         new_item = input(f'What {item_name} do you want to add?:').title()
-        file.write(f'{new_item}\n')
+        new_price = input('What price Should be set?')
+        file.write(f'{new_item}:{new_price}\n')
         file.close()
         return new_item
 
@@ -50,7 +68,7 @@ def update_item(file_location, item_list, item_name):
     with open(file_location, 'r+', newline='') as file:
         lines = [line.rstrip() for line in file.readlines()]
         for i, words in enumerate(lines):
-            print(i, words)
+            print(i, ':', words)
         user_edit_input = int(
             input(f"press the number of the {item_name} you want to edit?"))
         user_replace_input = input(
@@ -200,10 +218,10 @@ def delete_order(order_list):
 
 
 # open csv
-# def open_csv(filename):
-#     lists = []
-#     with open(filename, 'r+') as file:
-#         csv_file = csv.DictReader(file)
-#         for row in csv_file:
-#             lists.append(row)
-#         return lists
+def open_csv(filename):
+    lists = []
+    with open(filename, 'r+') as file:
+        csv_file = csv.DictReader(file)
+        for row in csv_file:
+            lists.append(row)
+        return lists
