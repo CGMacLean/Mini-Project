@@ -22,9 +22,9 @@ while True:
     user_input = input(
         "press 0 to save and exit: \npress 1 to view products: \npress 2 to view couriers: \npress 3 to view orders:")
     if user_input == '0':
-        # save_csv(PRODUCTS)
-        # save_csv(COURIERS)
-        # save_csv(ORDERS)
+        save_csv(PRODUCTS)
+        save_csv(COURIERS)
+        save_csv(ORDERS)
         break
     # product menu
     elif user_input == '1':
