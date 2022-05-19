@@ -80,7 +80,7 @@ def update_item_in_DB(fieldnames):
                     break
                 elif update_choice == 1:
                     cursor = connection.cursor()
-                    new_ID = int(input('Pick a new id'))
+                    new_ID = int(input('Pick a new id:'))
                     cursor.execute(f'''
                                 UPDATE {fieldnames[0]}
                                 SET {fieldnames[1]} = {new_ID}
