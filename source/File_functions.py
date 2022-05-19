@@ -2,7 +2,6 @@ import os
 import time
 import csv
 
-
 def print_logo():
     print('''
           _.._..,_,_
@@ -59,45 +58,48 @@ def add_item(file_name, item_name):
         return new_dict
 
 
-def update_item(filename, item_list, item_name):
-    with open(filename, newline="") as file:
-        readData = [row for row in csv.DictReader(file)]
-        # print(readData)
-        for i, dict in enumerate(readData):
-            print(i, ':', dict)
-        user_edit_input = int(
-            input(f"press the number of the {item_name} you want to edit?"))
-        user_replace_key = input(
-            'what do you want to replace with?:').title()
-        user_replace_value = input('what prace would you like to set?:')
-        readData[user_edit_input][user_replace_key] = user_replace_value
-        readHeader = readData[0].keys()
-        writer(readHeader, readData, filename, "update")
-        item_list[user_edit_input] = user_replace_key
-        return item_list
 
 
-def updater(filename):
-    with open(filename, newline="") as file:
-        readData = [row for row in csv.DictReader(file)]
-        # print(readData)
-        readData[0]['Rating'] = '9.4'
-        # print(readData)
+# def update_item(filename, item_list, item_name):
+    # with open(filename, newline="") as file:
+    #     readData = [row for row in csv.DictReader(file)]
+    #     # print(readData)
+    #     for i, dict in enumerate(readData):
+    #         print(i, ':', dict)
+    #     user_edit_input = int(
+    #         input(f"press the number of the {item_name} you want to edit?"))
+    #     user_replace_key = input(
+    #         'what do you want to replace with?:').title()
+    #     user_replace_value = input('what price would you like to set?:')
+    #     item_list[user_edit_input] = [user_replace_key]
+    #     # readData[user_edit_input][user_replace_key] = user_replace_value
+    #     # readHeader = readData[0].keys()
+    #     # writer(readHeader, readData, filename, "update")
+    # #     item_list[user_edit_input] = user_replace_key
+    #     return item_list
 
-    readHeader = readData[0].keys()
-    writer(readHeader, readData, filename, "update")
+
+# def updater(filename):
+#     with open(filename, newline="") as file:
+#         readData = [row for row in csv.DictReader(file)]
+#         # print(readData)
+#         readData[0]['Rating'] = '9.4'
+#         # print(readData)
+
+#     readHeader = readData[0].keys()
+#     writer(readHeader, readData, filename, "update")
 
 
-def update_item(file_location, item_list, item_name):
-    with open(file_location, 'r+', newline='') as file:
-        lines = [line.rstrip() for line in file.readlines()]
-        for i, words in enumerate(lines):
-            print(i, ':', words)
-        user_edit_input = int(
-            input(f"press the number of the {item_name} you want to edit?"))
-        user_replace_input = input(
-            'what do you want to replace with?:').title()
-        c
+# def update_item(file_location, item_list, item_name):
+#     with open(file_location, 'r+', newline='') as file:
+#         lines = [line.rstrip() for line in file.readlines()]
+#         for i, words in enumerate(lines):
+#             print(i, ':', words)
+#         user_edit_input = int(
+#             input(f"press the number of the {item_name} you want to edit?"))
+#         user_replace_input = input(
+#             'what do you want to replace with?:').title()
+#         c
 
 
 # def add_item(file_name):

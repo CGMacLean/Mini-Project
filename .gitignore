@@ -1,2 +1,8 @@
 testy.txt
-
+__pycache__
+Main_function.py
+miniproject.py
+.venv
+docker-compose.yml
+.env
+.vscode
