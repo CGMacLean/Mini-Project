@@ -1,7 +1,7 @@
 from sqlite3 import Cursor
-from menu_functions import refresh_screen
-import pymysql
+from menu_functions import refresh_screen, display_timer
 import os
+import pymysql
 from dotenv import load_dotenv
 
 
@@ -52,14 +52,25 @@ def DB_print(fieldnames):
 
 # # insert into
 def add_to_DB(fieldnames):
-    cursor = connection.cursor()
-    item_name = input(f'what {fieldnames[0]} do you wanna add?:')
-    item_value = float(input(f'what {fieldnames[3]} should it be:'))
-    sql = f"INSERT INTO {fieldnames[0]} ({fieldnames[2]},{fieldnames[3]}) VALUES ( %s, %s)"
-    val = item_name, item_value
-    cursor.execute(sql, val)
-    connection.commit()
-    cursor.close()
+    while True:
+        item_name = input(f'what {fieldnames[0]} do you wanna add?, or press 0 to exit:')
+        if item_name == '0':
+            print('back to menu')
+            break
+        else:
+            while True:
+                item_value = float(input(f'what {fieldnames[3]} should it be, or press 0 to exit:')) 
+                if item_value == 0:
+                    print('back to menu')
+                    display_timer(3)
+                    break
+                else:
+                    cursor = connection.cursor()
+                    sql = f"INSERT INTO {fieldnames[0]} ({fieldnames[2]},{fieldnames[3]}) VALUES ( %s, %s)"
+                    val = item_name, item_value
+                    cursor.execute(sql, val)
+                    connection.commit()
+                    cursor.close()
 
 def update_item_in_DB(fieldnames):
     while True:
@@ -113,14 +124,18 @@ def update_item_in_DB(fieldnames):
             
             
 def delete_item_in_DB(fieldnames):
-    cursor = connection.cursor()
-    item_ID = int(input(f'What is the {fieldnames[1]} you want to delete?:'))
-    cursor.execute(f'''
-                        DELETE FROM {fieldnames[0]}
-                        WHERE {fieldnames[1]} = {item_ID}
-                        ''')
-    connection.commit()
-    cursor.close()
+    while True:
+        cursor = connection.cursor()
+        item_ID = int(input(f'What is the {fieldnames[1]} you want to delete?:'))
+        if item_ID == 0:
+            break
+        else:
+            cursor.execute(f'''
+                                DELETE FROM {fieldnames[0]}
+                                WHERE {fieldnames[1]} = {item_ID}
+                                ''')
+            connection.commit()
+            cursor.close()
 
 
 # mycursor = mydb.cursor()

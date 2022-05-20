@@ -1,3 +1,4 @@
+.gitignore
 testy.txt
 __pycache__
 Main_function.py
@@ -6,3 +7,4 @@ miniproject.py
 docker-compose.yml
 .env
 .vscode
+Main_function.py

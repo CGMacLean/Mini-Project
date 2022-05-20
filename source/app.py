@@ -17,7 +17,7 @@ from Logo import *
 
 product_fieldnames = ['Product','ProductID', 'Product_Name', 'Price']
 courier_fieldnames = ['Courier','Courier_ID','Courier_name','Tel_No']
-order_fieldnames =[]
+order_fieldnames =['PersonID', 'Customer_name','Customer _Address','Customer_Phone','couriers','order_status','Items']
 
 print_logo()
 
@@ -49,14 +49,14 @@ while True:
                 # PRINT products list
                 refresh_screen()
                 DB_print(product_fieldnames)
-                time.sleep(3)
+                display_timer(3)
                 refresh_screen()
             elif user_menu_input == '2':
                 # CREATE new product
                 DB_print(product_fieldnames)
                 add_to_DB(product_fieldnames)
                 DB_print(product_fieldnames)
-                time.sleep(3)
+                display_timer(3)
                 refresh_screen()
             elif user_menu_input == '3':
                 # UPDATE existing product
@@ -108,7 +108,16 @@ while True:
                 DB_print(courier_fieldnames)
                 delete_item_in_DB(courier_fieldnames)
                 refresh_screen()
-    #     print(courier_list)
-    # # order menu
-    # elif user_input == '3':
-    #     print(order_list)
+    # order menu
+    elif user_input == '3':
+        refresh_screen()
+        while True:
+            user_menu_input = input(
+                'press 0 to go to main menu: \npress 1 to view Orders: \npress 2 add a Order: \npress 3 to edit Order infomation: \npress 4 to delete an Order:')
+            if user_menu_input == '0':
+                # RETURN to main menu
+                exit_to_menu()
+                refresh_screen()
+                break
+            
+            
