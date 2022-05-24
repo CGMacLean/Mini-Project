@@ -1,23 +1,13 @@
-import os
-import time
-from File_functions import *
-from file_manager2 import *
+from Data_base_manager import *
 from menu_functions import *
 from Logo import *
 
-# PRODUCTS = 'product_list.csv'
-# COURIERS = 'courier_list.csv'
-# ORDERS = 'order_list.csv'
-# ORDER_STATUS = ['Prepareing', 'Out for delivery','Complete']
-
-
-# product_list = open_csv(PRODUCTS)
-# courier_list = open_csv(COURIERS)
-# order_list = open_csv(ORDERS)
 
 product_fieldnames = ['Product','ProductID', 'Product_Name', 'Price']
 courier_fieldnames = ['Courier','Courier_ID','Courier_name','Tel_No']
-order_fieldnames =['PersonID', 'Customer_name','Customer _Address','Customer_Phone','couriers','order_status','Items']
+order_fieldnames =['Orders','OrderID', 'Customer_name','Customer_Address','Customer_Phone','Couriers','Order_Status','Items']
+Order_Status_feildnames = ['Order_Status','Order_Status_id','Order_Status']
+
 
 print_logo()
 
@@ -39,7 +29,7 @@ while True:
         refresh_screen()
         while True:
             user_menu_input = input(
-                'press 0 to go to main menu: \npress 1 to view products: \npress 2 add a product: \npress 3 to edit product infomation: \npress 4 to delete product:')
+                'press 0 to go to main menu: \npress 1 to view products: \npress 2 add a product: \npress 3 to update product infomation: \npress 4 to delete product:')
             if user_menu_input == '0':
                 # RETURN to main menu
                 exit_to_menu()
@@ -48,27 +38,27 @@ while True:
             elif user_menu_input == '1':
                 # PRINT products list
                 refresh_screen()
-                DB_print(product_fieldnames)
+                DB_print_all_from(product_fieldnames)
                 display_timer(3)
                 refresh_screen()
             elif user_menu_input == '2':
                 # CREATE new product
-                DB_print(product_fieldnames)
+                DB_print_all_from(product_fieldnames)
                 add_to_DB(product_fieldnames)
-                DB_print(product_fieldnames)
+                DB_print_all_from(product_fieldnames)
                 display_timer(3)
                 refresh_screen()
             elif user_menu_input == '3':
                 # UPDATE existing product
                 refresh_screen()
-                DB_print(product_fieldnames)
+                DB_print_all_from(product_fieldnames)
                 update_item_in_DB(product_fieldnames)
-                DB_print(product_fieldnames)
+                DB_print_all_from(product_fieldnames)
                 refresh_screen()
             elif user_menu_input == '4':
                 # DELETE product
                 refresh_screen()
-                DB_print(product_fieldnames)
+                DB_print_all_from(product_fieldnames)
                 delete_item_in_DB(product_fieldnames)
                 refresh_screen()
     # courier menu
@@ -76,7 +66,7 @@ while True:
         refresh_screen()
         while True:
             user_menu_input = input(
-                'press 0 to go to main menu: \npress 1 to view Couriers: \npress 2 add a Courier: \npress 3 to edit Courier infomation: \npress 4 to delete Courier:')
+                'press 0 to go to main menu: \npress 1 to view Couriers: \npress 2 add a Courier: \npress 3 to update Courier infomation: \npress 4 to delete Courier:')
             if user_menu_input == '0':
                 # RETURN to main menu
                 exit_to_menu()
@@ -85,27 +75,27 @@ while True:
             elif user_menu_input == '1':
                 # PRINT products list
                 refresh_screen()
-                DB_print(courier_fieldnames)
-                time.sleep(3)
+                DB_print_all_from(courier_fieldnames)
+                display_timer(3)
                 refresh_screen()
             elif user_menu_input == '2':
                 # CREATE new product
-                DB_print(courier_fieldnames)
+                DB_print_all_from(courier_fieldnames)
                 add_to_DB(courier_fieldnames)
-                DB_print(courier_fieldnames)
-                time.sleep(3)
+                DB_print_all_from(courier_fieldnames)
+                display_timer(3)
                 refresh_screen()
             elif user_menu_input == '3':
                 # UPDATE existing product
                 refresh_screen()
-                DB_print(courier_fieldnames)
+                DB_print_all_from(courier_fieldnames)
                 update_item_in_DB(courier_fieldnames)
-                DB_print(courier_fieldnames)
+                DB_print_all_from(courier_fieldnames)
                 refresh_screen()
             elif user_menu_input == '4':
                 # DELETE product
                 refresh_screen()
-                DB_print(courier_fieldnames)
+                DB_print_all_from(courier_fieldnames)
                 delete_item_in_DB(courier_fieldnames)
                 refresh_screen()
     # order menu
@@ -113,11 +103,35 @@ while True:
         refresh_screen()
         while True:
             user_menu_input = input(
-                'press 0 to go to main menu: \npress 1 to view Orders: \npress 2 add a Order: \npress 3 to edit Order infomation: \npress 4 to delete an Order:')
+                'press 0 to go to main menu: \npress 1 to view Orders: \npress 2 add a Order: \npress 3 to update Order status infomation: \npress 4 to update an Orders details: \npress 5 to delete an Orders')
             if user_menu_input == '0':
                 # RETURN to main menu
                 exit_to_menu()
                 refresh_screen()
                 break
-            
-            
+            elif user_menu_input == '1':
+                # print all orders
+                refresh_screen()
+                DB_print_all_from(order_fieldnames)
+                display_timer(3)
+                refresh_screen()
+            elif user_menu_input == '2':
+                # add an order to the order list
+                refresh_screen()
+                add_order_to_DB(order_fieldnames,product_fieldnames,courier_fieldnames)
+            elif user_menu_input == '3':
+                refresh_screen()
+                # update an existing orders status
+                update_order_status_in_DB(order_fieldnames,Order_Status_feildnames)
+                refresh_screen()
+            elif user_menu_input == '4':
+                refresh_screen()
+                # update an existing order
+                update_order_in_DB(order_fieldnames,Order_Status_feildnames,product_fieldnames)
+                refresh_screen()
+            elif user_menu_input == '5':
+                refresh_screen()
+                # delete an existing order 
+                delete_order_in_DB(order_fieldnames)
+                refresh_screen()
+                
