@@ -218,10 +218,3 @@ def delete_order(order_list):
 
 
 # open csv
-def open_csv(filename):
-    lists = []
-    with open(filename, 'r+') as file:
-        csv_file = csv.DictReader(file)
-        for row in csv_file:
-            lists.append(row)
-        return lists

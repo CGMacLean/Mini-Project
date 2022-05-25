@@ -39,13 +39,6 @@ def print_list_dict(item_list):
         print(i, dict)
 
 
-def save_csv(file_name, list_dict):
-    # keys = list_dict[0].keys()
-    with open(file_name, 'w') as csvfile:
-        writer = csv.DictWriter(csvfile, keys=fields)
-        writer.writeheader()
-        writer.writerows(list_dict)
-
 
 def add_item(file_name, item_name):
     with open(file_name, 'a', newline='') as file:

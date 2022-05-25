@@ -1,0 +1,9 @@
+OrderID,Customer_name,Customer_Address,Customer_Phone,Couriers,Order_Status,Items
+1,John,"Unit 2, 12 Main Street, LONDON, WH1 2ER",789887334,2,2,"1, 3, 4"
+2,Maria,Bristol,1010101,2,3,4
+4,Lou,1 long road,364243,4,2,"1,3,5,2"
+5,Merry,Hobbitton,393290,6,1,"4,4,4"
+6,Pipin,Shire,468789,6,1,"4,4,4"
+7,Legolos,merkwood,1346224,5,2,"6,5,7"
+9,Marshal,Hardik,2134,3,1,"5,3"
+11,Marshal,Hardik,875465,5,1,"14, 10, 9"

@@ -1,9 +1,9 @@
-from sqlite3 import Cursor
-from menu_functions import refresh_screen, display_timer
+
+from menu_functions import refresh_screen, display_timer, exit_to_menu
 import os
 import pymysql
+import csv
 from dotenv import load_dotenv
-
 
 def print_list(list):
     for (i, item) in enumerate(list):
@@ -41,8 +41,9 @@ connection = pymysql.connect(
 
 
 # print database
-def DB_print_all_from(fieldnames):
+def db_print_all_from(fieldnames):
     cursor = connection.cursor()
+    # select everything from table given
     cursor.execute(f"SELECT * FROM {fieldnames[0]}")
     result = cursor.fetchall()
     for row in result:
@@ -50,8 +51,9 @@ def DB_print_all_from(fieldnames):
     connection.commit()
     cursor.close()
     
-def DB_print_row(fieldnames, item_ID):
+def db_print_row_by_id(fieldnames, item_ID):
     cursor = connection.cursor()
+    # slelect row from table where ID matches input
     cursor.execute(f"SELECT * FROM {fieldnames[0]} WHERE {fieldnames[1]} = {item_ID}")
     result = cursor.fetchall()
     for row in result:
@@ -60,8 +62,9 @@ def DB_print_row(fieldnames, item_ID):
     cursor.close()
     
 
-def DB_print_last_row(fieldnames):
+def db_print_lat_row(fieldnames):
     cursor = connection.cursor()
+    # selects everything but sorts (order by) decending by ID and limits by one
     cursor.execute(f"SELECT * FROM {fieldnames[0]} ORDER BY {fieldnames[1]} DESC LIMIT 1")
     result = cursor.fetchall()
     for row in result:
@@ -69,7 +72,7 @@ def DB_print_last_row(fieldnames):
     connection.commit()
     cursor.close()
     
-def DB_print_specific(fieldnames, column_index , ID_value):
+def db_print_specific(fieldnames, column_index , ID_value):
     cursor = connection.cursor()
     # takes the table column index and print at the correspoding id 
     cursor.execute(f"SELECT  {fieldnames[column_index]} FROM {fieldnames[0]} WHERE {fieldnames[1]} = {ID_value};")
@@ -82,6 +85,7 @@ def DB_print_specific(fieldnames, column_index , ID_value):
     
 def add_to_DB(fieldnames):
     while True:
+        refresh_screen()
         # ask for the name of the itme to be added
         item_name = input(f'What {fieldnames[0]} do you wanna add?, or press 0 to exit:')
         # proving an exit path
@@ -113,7 +117,7 @@ def update_item_in_DB(fieldnames):
     while True:
         refresh_screen()
         # GET all coloumns entrys from feildnames table and print
-        DB_print_all_from(fieldnames)
+        db_print_all_from(fieldnames)
         # ask which entry to be updated
         item_ID = int(input(f'What is the {fieldnames[1]} you want to update?, or press 0 to exit:'))
         if item_ID == 0:
@@ -121,7 +125,7 @@ def update_item_in_DB(fieldnames):
         else:
             while True:
                 refresh_screen()
-                DB_print_row(fieldnames,item_ID)
+                db_print_row_by_id(fieldnames,item_ID)
                 # print the options avalible for update exculding Table name
                 print_list(fieldnames[1:])
                 update_choice = int(input('Press the index of the contect you will like to update or 0 to exit:'))
@@ -186,7 +190,7 @@ def Add_to_basket(product_fieldnames):
     item_list = []
     while True:
         refresh_screen()
-        DB_print_all_from(product_fieldnames)
+        db_print_all_from(product_fieldnames)
         print(f'your items are {item_list}')
         basket = input('Pick a products by ID when your happy just press enter or press 0 only to exit:')
         item_list.append(basket)
@@ -200,12 +204,12 @@ def Add_to_basket(product_fieldnames):
                 # remove last enter input forcing a comma
                 del item_list[-1]
                 # join basket items to Items for DB
-                Items = ','.join(item_list)
+                Items = ', '.join(item_list)
                 print(Items)
                 return Items
         else:
             print('Add another? or press enter to continue')
-            display_timer(1)
+            
         
             
 def Add_customer_name():
@@ -241,7 +245,7 @@ def Add_customer_Phone():
         
         
 def Pick_A_Courier(courier_fieldnames):
-    DB_print_all_from(courier_fieldnames)
+    db_print_all_from(courier_fieldnames)
     couriers = int(input('Pick courier by ID, or 0 to exit'))   
     if couriers == 0:
             print('back to menu')
@@ -250,7 +254,7 @@ def Pick_A_Courier(courier_fieldnames):
     else:
         return couriers
         
-def add_order_to_DB(order_fieldnames,product_fieldnames,courier_fieldnames):
+def add_order_to_database(order_fieldnames,product_fieldnames,courier_fieldnames):
     while True:
         Customer_name = Add_customer_name()
         Customer_Address = Add_Customer_Address()
@@ -270,7 +274,7 @@ def add_order_to_DB(order_fieldnames,product_fieldnames,courier_fieldnames):
 def update_order_status_in_DB(order_fieldnames,Order_Status_feildnames):
     refresh_screen()
     # GET all orders from orders table and print
-    DB_print_all_from(order_fieldnames)
+    db_print_all_from(order_fieldnames)
     # GET user input for order ID
     input_order_ID = int(input('Pick order by ID or press 0 to exit:'))
     while True:
@@ -279,7 +283,7 @@ def update_order_status_in_DB(order_fieldnames,Order_Status_feildnames):
             break
         else:
             # GET all order statuses from order_status table and print
-            DB_print_all_from(Order_Status_feildnames)
+            db_print_all_from(Order_Status_feildnames)
             cursor = connection.cursor()
              # GET user input for the updated order status ID
             new_ID = int(input('Pick a new order by ID:'))
@@ -296,7 +300,7 @@ def update_order_status_in_DB(order_fieldnames,Order_Status_feildnames):
 def update_order_in_DB(fieldnames,Order_Status_feildnames,product_fieldnames):
     refresh_screen()
     # GET all orders from orders table and print
-    DB_print_all_from(fieldnames)
+    db_print_all_from(fieldnames)
     # GET user input for order ID
     input_order_ID = int(input('Pick order by ID or press 0 to exit:'))
     while True:
@@ -309,7 +313,7 @@ def update_order_in_DB(fieldnames,Order_Status_feildnames,product_fieldnames):
             break
         elif update_choice == 1:
             # print existing entry
-            DB_print_specific(fieldnames, 1 , input_order_ID)
+            db_print_specific(fieldnames, 1 , input_order_ID)
             # GET user input for new ID and update database
             cursor = connection.cursor()
             new_ID = int(input('Pick a new id:'))
@@ -323,7 +327,7 @@ def update_order_in_DB(fieldnames,Order_Status_feildnames,product_fieldnames):
             input_order_ID = new_ID
         elif update_choice == 2:
             # print existing entry
-            DB_print_specific(fieldnames, 2 , input_order_ID)
+            db_print_specific(fieldnames, 2 , input_order_ID)
             # GET user input for new name and update database
             cursor = connection.cursor()
             new_name = input('What would should the name be?:')
@@ -336,7 +340,7 @@ def update_order_in_DB(fieldnames,Order_Status_feildnames,product_fieldnames):
             cursor.close()
         elif update_choice == 3:
             # print existing entry
-            DB_print_specific(fieldnames, 3 , input_order_ID)
+            db_print_specific(fieldnames, 3 , input_order_ID)
             # GET user input for new address and update database
             cursor = connection.cursor()
             new_address = input('What would should the address be?:')
@@ -349,7 +353,7 @@ def update_order_in_DB(fieldnames,Order_Status_feildnames,product_fieldnames):
             cursor.close()
         elif update_choice == 4:
             # print existing entry
-            DB_print_specific(fieldnames, 4 , input_order_ID)
+            db_print_specific(fieldnames, 4 , input_order_ID)
             cursor = connection.cursor()
             # GET new number to update
             customer_number = int(input(f'What {fieldnames[4]} should it be:'))
@@ -362,7 +366,7 @@ def update_order_in_DB(fieldnames,Order_Status_feildnames,product_fieldnames):
             cursor.close()
         elif update_choice == 5:
             # print existing entry
-            DB_print_specific(fieldnames, 5 , input_order_ID)
+            db_print_specific(fieldnames, 5 , input_order_ID)
             cursor = connection.cursor()
             # GET new courier by ID and update
             courier_ID = int(input('Pick courier by ID would you like it to be:'))
@@ -375,9 +379,9 @@ def update_order_in_DB(fieldnames,Order_Status_feildnames,product_fieldnames):
             cursor.close()
         elif update_choice == 6:
             # print existing entry
-            DB_print_specific(fieldnames, 6 , input_order_ID)
+            db_print_specific(fieldnames, 6 , input_order_ID)
             # display order status options with id
-            DB_print_all_from(Order_Status_feildnames)
+            db_print_all_from(Order_Status_feildnames)
             cursor = connection.cursor()
             # GET new status by ID and update
             status_ID = int(input('Pick status by ID would you like it to be:'))
@@ -391,8 +395,8 @@ def update_order_in_DB(fieldnames,Order_Status_feildnames,product_fieldnames):
         elif update_choice == 7:
             # print existing entry
             print('The order is...')
-            DB_print_specific(fieldnames, 7 , input_order_ID)
-            DB_print_all_from(product_fieldnames)
+            db_print_specific(fieldnames, 7 , input_order_ID)
+            db_print_all_from(product_fieldnames)
             cursor = connection.cursor()
             # GET new orders by ID and update
             items_ID = input('Pick products from the list by ID seperated by a comma')
@@ -406,50 +410,72 @@ def update_order_in_DB(fieldnames,Order_Status_feildnames,product_fieldnames):
             
         
 def delete_order_in_DB(order_fieldnames):
-    DB_print_all_from(order_fieldnames)
-    order_id = input('Pick oder to be deleted by ID') 
+    db_print_all_from(order_fieldnames)
+    order_id = input('Pick oder to be deleted by ID')
     cursor = connection.cursor()
-    # takes the table name and deletes at the correspoding id 
+    # takes the table name and deletes at the correspoding id
     cursor.execute(f"DELETE FROM {order_fieldnames[0]} WHERE {order_fieldnames[1]} = {order_id};")
     connection.commit()
     cursor.close()
     print('The order has been successfully deleted')
 
-# mycursor = mydb.cursor()
 
-# sql = "DELETE FROM customers WHERE address = 'Mountain 21'"
+def save_DB_to_CSV(fieldnames):
+    csv_file_path = f'{fieldnames[0]}.csv'
+    cursor = connection.cursor()
+    # selects everything from table provided
+    sql = f"SELECT * FROM {fieldnames[0]}"
+    cursor.execute(sql)
+    rows = cursor.fetchall()
+    connection.commit()
+    cursor.close()
+    # Continue only if there are rows returned.
+    if rows:
+        # New empty list called 'result'. This will be written to a file.
+        result = list()
 
-# mycursor.execute(sql)
+        # The row name is the first entry for each entity in the description tuple.
+        column_names = list()
+        for i in cursor.description:
+            column_names.append(i[0])
 
-# mydb.commit()
+        result.append(column_names)
+        for row in rows:
+            result.append(row)
 
-# print(mycursor.rowcount, "record(s) deleted")
-    # UPDATE Customers
-    # SET ContactName = 'Alfred Schmidt', City= 'Frankfurt'
-    # WHERE CustomerID = 1;
-# add_to_database(product_fieldnames)
-
-# def add_couriers():
-#     courier= input('what Courier do you wanna add?:')
-#     tel_no = float(input('what number should it be:'))
-    
-#     sql = "INSERT INTO Courier ( Courier_name, Tel_No ) VALUES (%s, %s)"
-#     val =courier,tel_no
-#     cursor.execute(sql, val)
-#     # '{0:.2f}'.format(2.5)
-#     # fstring
-    
-# add_couriers()
-
-
-
-
-
-
-# connection.commit()
-# cursor.close()
-# connection.close()
-
-
-# cursor.execute(
-#"CREATE TABLE products (PersonID int PRIMARY KEY AUTO_INCREMENT, Customer_name varchar(255), Address varchar(255), Tel varchar(255), couriers varchar(255), order_status varchar(255))")
+        # Write result to file.
+        with open(csv_file_path, 'w', newline='') as csvfile:
+            csvwriter = csv.writer(csvfile, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+            for row in result:
+                csvwriter.writerow(row)
+    else:
+        print(f"No rows found for query: {sql}")
+        
+        
+        
+def db_sort_by(fieldnames):
+    cursor = connection.cursor()
+    sort_options = ['order status','courier']
+    print_list(sort_options)
+    column_choice = int(input('Pick option to order by:'))
+    # selects everything and sorts (order by) column_choice
+    while True:
+        if column_choice == 0:
+            exit_to_menu()
+            break
+        elif column_choice == 1:
+            # order by order status
+            cursor.execute(f"SELECT * FROM {fieldnames[0]} ORDER BY {fieldnames[6]}")
+            result = cursor.fetchall()
+            for row in result:
+                    print(row)
+            connection.commit()
+            cursor.close()
+        elif column_choice == 2:
+            # order by courier
+            cursor.execute(f"SELECT * FROM {fieldnames[0]} ORDER BY {fieldnames[5]}")
+            result = cursor.fetchall()
+            for row in result:
+                    print(row)
+            connection.commit()
+            cursor.close()

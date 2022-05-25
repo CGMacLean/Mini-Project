@@ -20,7 +20,3 @@ def display_timer(n):
 def exit_to_menu():
     print('return to main menu')
 
-
-def print_list_dict(item_list):
-    for i, dict in enumerate(item_list):
-        print(i, dict)
